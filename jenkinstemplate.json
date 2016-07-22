@@ -32,6 +32,23 @@
         }
       }
     },
+ 	{
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${JENKINS_SERVICE_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },        
     {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
@@ -132,8 +149,8 @@
             "volumes": [
               {
                 "name": "${JENKINS_SERVICE_NAME}-data",
-                "emptyDir": {
-                  "medium": ""
+                 "persistentVolumeClaim": {
+                  "claimName": "${JENKINS_SERVICE_NAME}"
                 }
               }
             ],
@@ -246,9 +263,16 @@
       "description": "Password for the Jenkins user.",
       "generate": "expression",
       "value": "password"
+    },
+    {
+      "name": "VOLUME_CAPACITY",
+      "displayName": "Volume Capacity",
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
+      "value": "1Gi",
+      "required": true
     }
   ],
   "labels": {
-    "template": "jenkins-ephemeral-template"
+    "template": "jenkins-persistent-template"
   }
 }
