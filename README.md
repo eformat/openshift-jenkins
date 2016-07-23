@@ -1,4 +1,4 @@
-# Nexus for OpenShift Enterprise 3
+# Jenkins for OpenShift Enterprise 3
 
 This is instant jenkins application for OpenShift Enterprise 3.
 
